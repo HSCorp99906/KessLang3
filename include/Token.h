@@ -8,7 +8,8 @@ enum TokenType {
     T_RPAREN,
     T_QUOTE,
     T_END_STATEMENT,
-    T_INTEGER
+    T_INTEGER,
+    T_IDENTIFIER,
 };
 
 

@@ -3,6 +3,8 @@
 #include <string.h>
 #include "../include/Token.h"
 #include "../include/Lexer.h"
+#include "../include/Parser.h"
+
 
 unsigned int lineNum = 0;
 
@@ -16,19 +18,25 @@ int main(int argc, char** argv) {
     FILE* fp = fopen(argv[1], "r");
 
     char lineBuffer[500];
+    struct Instruction* instructions = calloc(5, sizeof(struct Instruction));
 
-    while (fgets(lineBuffer, 490, fp)) {
+    while (fgets(lineBuffer, 500, fp)) {
         ++lineNum;
-        printf("Allocated memory for tokens on heap.\n");
         struct _Token* tokens = tokenize(lineBuffer, lineNum);
+        instructions[lineNum - 1] = parse(tokens, lineNum);
 
-        for (int i = 0; i < sizeof(tokens); ++i) {
-            printf("%c\n", tokens[i].character);
+        if (!(instructions[lineNum - 1].approved)) {
+            free(instructions);
+            free(tokens);
+            fclose(fp);
+            return 1;
         }
 
         free(tokens);
-        printf("De-allocated tokens.\n");
     }
 
     fclose(fp);
+    free(instructions);
+
+    printf("Instructions de-allocated from memory\n");
 }

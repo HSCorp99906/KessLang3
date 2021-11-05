@@ -99,8 +99,16 @@ struct _Token* tokenize(char line[], unsigned int lineNum) {
                 tokenlist[index].lineNum = lineNum;
                 ++index;
                 break;
+            case ';':
+                tokenlist[index].character = line[i];
+                tokenlist[index].type = T_END_STATEMENT;
+                tokenlist[index].lineNum = lineNum;
+                ++index;
+                break;
         }
     }
+
+    tokenlist[index + 1].character = '\0';
 
     return tokenlist;
 }
