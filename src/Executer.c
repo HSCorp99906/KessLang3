@@ -10,7 +10,7 @@ void execute(struct Instruction* instructionList) {
                         struct IO curIOData;
                         curIOData._using = 'O';
                         curIOData.value = instructionList[i].value;
-                        handleIO(curIOData);
+                        handleIO(&curIOData);
                         break;
                 }
 

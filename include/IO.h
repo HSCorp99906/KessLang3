@@ -7,10 +7,11 @@
 struct IO {
     char _using;
     char* value;
+    char* input_storage;
 };
 
 
-void handleIO(struct IO __IO);
+void handleIO(struct IO* __IO);
 
 
 #endif  // KESS_IO_H_
