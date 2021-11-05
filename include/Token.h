@@ -10,12 +10,20 @@ enum TokenType {
     T_END_STATEMENT,
     T_INTEGER,
     T_IDENTIFIER,
+    T_SPECIAL_CHAR,
+    T_SPACE
+};
+
+
+enum BuiltInCalls {
+    OUT,
 };
 
 
 struct _Token {
     char character;
     int type;
+    int builtInCall;
     char* line;
     unsigned int lineNum;
 };

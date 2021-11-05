@@ -4,6 +4,7 @@
 #include "../include/Token.h"
 #include "../include/Lexer.h"
 #include "../include/Parser.h"
+#include "../include/Executer.h"
 
 
 unsigned int lineNum = 0;
@@ -18,7 +19,10 @@ int main(int argc, char** argv) {
     FILE* fp = fopen(argv[1], "r");
 
     char lineBuffer[500];
-    struct Instruction* instructions = calloc(5, sizeof(struct Instruction));
+    struct Instruction* instructions = calloc(35, sizeof(struct Instruction));
+    size_t instructionlist_size = 35;
+
+    unsigned short int error = 0;
 
     while (fgets(lineBuffer, 500, fp)) {
         ++lineNum;
@@ -26,17 +30,23 @@ int main(int argc, char** argv) {
         instructions[lineNum - 1] = parse(tokens, lineNum);
 
         if (!(instructions[lineNum - 1].approved)) {
-            free(instructions);
-            free(tokens);
-            fclose(fp);
-            return 1;
+            error = 1;
+        }
+
+        if (lineNum -1 >= instructionlist_size - 4) {
+            instructions = realloc(instructions, instructionlist_size += 10);
+            printf("Instructions re-allocated to a size of %d", instructionlist_size);
         }
 
         free(tokens);
     }
 
+    instructions[lineNum].type = _EOF;
+
+    if (!(error)) {
+        execute(instructions);
+    }
+
     fclose(fp);
     free(instructions);
-
-    printf("Instructions de-allocated from memory\n");
 }

@@ -9,7 +9,8 @@
 
 enum InstructionTypes {
     BUILT_IN_CALL,
-    OUTPUT
+    OUTPUT,
+    _EOF
 };
 
 

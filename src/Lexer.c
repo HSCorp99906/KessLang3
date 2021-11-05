@@ -5,10 +5,22 @@ struct _Token* tokenize(char line[], unsigned int lineNum) {
 
     size_t tokenlist_size = 24;
     unsigned int index = 0;
+    char match[500];
 
     for (int i = 0; i < strlen(line); ++i) {
         if (i >= tokenlist_size - 5) {
             tokenlist = (struct _Token*)realloc(tokenlist, tokenlist_size += 5);
+        }
+
+        strncat(match, &line[i], 1);
+
+        if (strcmp(match, "out") == 0) {
+            tokenlist[index].type = T_IDENTIFIER;
+            tokenlist[index].character = line[i];
+            tokenlist[index].builtInCall = OUT;
+            tokenlist[index].lineNum = lineNum;
+            tokenlist[index].line = line;
+            ++index;
         }
 
         switch (line[i]) {
@@ -24,6 +36,7 @@ struct _Token* tokenize(char line[], unsigned int lineNum) {
                 tokenlist[index].character = line[i];
                 tokenlist[index].type = T_INTEGER;
                 tokenlist[index].lineNum = lineNum;
+                tokenlist[index].line = line;
                 ++index;
                 break;
             case 'a':
@@ -79,32 +92,60 @@ struct _Token* tokenize(char line[], unsigned int lineNum) {
                 tokenlist[index].character = line[i];
                 tokenlist[index].type = T_CHAR;
                 tokenlist[index].lineNum = lineNum;
+                tokenlist[index].line = line;
                 ++index;
                 break;
             case '(':
                 tokenlist[index].character = line[i];
                 tokenlist[index].type = T_LPAREN;
                 tokenlist[index].lineNum = lineNum;
+                tokenlist[index].line = line;
                 ++index;
                 break;
             case ')':
                 tokenlist[index].character = line[i];
                 tokenlist[index].type = T_RPAREN;
                 tokenlist[index].lineNum = lineNum;
+                tokenlist[index].line = line;
                 ++index;
                 break;
             case '"':
                 tokenlist[index].character = line[i];
                 tokenlist[index].type = T_QUOTE;
                 tokenlist[index].lineNum = lineNum;
+                tokenlist[index].line = line;
                 ++index;
                 break;
             case ';':
                 tokenlist[index].character = line[i];
                 tokenlist[index].type = T_END_STATEMENT;
                 tokenlist[index].lineNum = lineNum;
+                tokenlist[index].line = line;
                 ++index;
                 break;
+            case ' ':
+                tokenlist[index].character = ' ';
+                tokenlist[index].type = T_SPACE;
+                tokenlist[index].lineNum = lineNum;
+                tokenlist[index].line = line;
+                ++index;
+                break;
+            case '.':
+            case '!':
+            case '@':
+            case '$':
+            case '%':
+            case '^':
+            case '&':
+            case ',':
+            case '?':
+                tokenlist[index].character = line[i];
+                tokenlist[index].type = T_SPECIAL_CHAR;
+                tokenlist[index].lineNum = lineNum;
+                tokenlist[index].line = line;
+                ++index;
+                break;
+
         }
     }
 
