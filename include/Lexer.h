@@ -14,7 +14,7 @@ struct TokenListInitData {
 };
 
 
-struct _Token* tokenize(char line[], unsigned int lineNum);
+void tokenize(char line[], unsigned int lineNum, struct Token** tokenlist);
 
 
 #endif  // KESS_LEXER_H_
