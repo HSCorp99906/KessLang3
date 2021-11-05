@@ -11,7 +11,8 @@ enum TokenType {
     T_INTEGER,
     T_IDENTIFIER,
     T_SPECIAL_CHAR,
-    T_SPACE
+    T_SPACE,
+    T_UNLISTED
 };
 
 

@@ -145,6 +145,13 @@ struct _Token* tokenize(char line[], unsigned int lineNum) {
                 tokenlist[index].line = line;
                 ++index;
                 break;
+            default:
+                tokenlist[index].character = line[i];
+                tokenlist[index].type = T_UNLISTED;
+                tokenlist[index].lineNum = lineNum;
+                tokenlist[index].line = line;
+                ++index;
+                break;
 
         }
     }
